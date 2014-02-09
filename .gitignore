@@ -1,6 +1,7 @@
 *.py[cod]
 settings.ini
 emailvis
+.gitignore
 
 # C extensions
 *.so
