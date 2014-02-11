@@ -1,10 +1,14 @@
 import imaplib
 import email
 import bleach
+import sys
+import nltk
+import getpass
 
-userid = "tjhackathon"
-gmailpwd = "hackTJ1234"
-SenderName = 'hackTJ'
+
+userid = ""
+gmailpwd = ""
+SenderName = ''
 
 
 
@@ -16,6 +20,7 @@ def extract_body(payload):
         return '\n'.join([extract_body(part.get_payload()) for part in payload])
 
 def get_emails():
+
     emails = []
     # Create a connection to gmail through port 993
     conn = imaplib.IMAP4_SSL("imap.gmail.com", 993)
@@ -28,17 +33,32 @@ def get_emails():
 
     #Gets all the email from SenderName. typ has the return code,
     #whereas data has the id of all the email from SenderName
+
     typ, data = conn.search(None, 'FROM', SenderName)
+    x = 0
     try:
         for num in data[0].split():
             typ, msg_data = conn.fetch(num, '(RFC822)') #Gets the content of each email.
             for response_part in msg_data:
                 if isinstance(response_part, tuple):
                     msg = email.message_from_string(response_part[1]) #If you are using Python 2.7 avoid the .decode("utf-8")
-                    subject=bleach.clean(msg['subject'])               
+                    subject=bleach.clean(msg['subject'])
+                    date = msg['date']
                     payload=msg.get_payload()
-                    body=bleach.clean(extract_body(payload)).replace('\n', ' ')
-                    emails.append(body)
+                    #body=bleach.clean(extract_body(payload)).replace('\n', ' ')
+                    bodytext=msg.get_payload()[0].get_payload();
+                    if type(bodytext) is list:
+                        bodytext=','.join(str(v) for v in bodytext)
+                        # print bodytext
+
+                    # This is what helps with the language processing and tagging words
+                    #text = nltk.word_tokenize(body)
+                    emails.append(bodytext.strip())
+            #limits number of emails that it pulls
+            print x
+            x = x + 1
+            if x > 15:
+                break
     finally:
         try:
             conn.close()
