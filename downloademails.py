@@ -7,9 +7,9 @@ import getpass
 from nltk.corpus import stopwords
 
 
-userid = ""
-gmailpwd = ""
-SenderName = ''
+userid = "tjhackathon"
+gmailpwd = "hackTJ1234"
+SenderName = 'hackTJ'
 
 
 
@@ -51,8 +51,12 @@ def get_emails():
                         if part.get_content_type() == 'text/plain':
                             bodytext = part.get_payload()
                             text = nltk.word_tokenize(bodytext)
-                            print [i for i in text if i not in stop]
                             print type(stop)
+                            text = [i for i in text if i not in stop]
+                            #tags the list with word type and puts it into typles
+                            taggedtext = nltk.tag.pos_tag(text)
+                            # list of nouns
+                            nouns = [word for word,pos in taggedtext if pos == 'NN']
                             emails.append(bodytext.strip())
 
                     # This is what helps with the language processing and tagging words
