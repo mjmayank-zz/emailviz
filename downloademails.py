@@ -4,6 +4,7 @@ import bleach
 import sys
 import nltk
 import getpass
+from nltk.corpus import stopwords
 
 
 userid = ""
@@ -22,6 +23,8 @@ def extract_body(payload):
 def get_emails():
 
     emails = []
+    stop = stopwords.words('english')
+    stop.extend(['<', '>', '--', '-'])
     # Create a connection to gmail through port 993
     conn = imaplib.IMAP4_SSL("imap.gmail.com", 993)
 
@@ -44,16 +47,15 @@ def get_emails():
                     msg = email.message_from_string(response_part[1]) #If you are using Python 2.7 avoid the .decode("utf-8")
                     subject=bleach.clean(msg['subject'])
                     date = msg['date']
-                    payload=msg.get_payload()
-                    #body=bleach.clean(extract_body(payload)).replace('\n', ' ')
-                    bodytext=msg.get_payload()[0].get_payload();
-                    if type(bodytext) is list:
-                        bodytext=','.join(str(v) for v in bodytext)
-                        # print bodytext
+                    for part in msg.walk():
+                        if part.get_content_type() == 'text/plain':
+                            bodytext = part.get_payload()
+                            text = nltk.word_tokenize(bodytext)
+                            print [i for i in text if i not in stop]
+                            print type(stop)
+                            emails.append(bodytext.strip())
 
                     # This is what helps with the language processing and tagging words
-                    #text = nltk.word_tokenize(body)
-                    emails.append(bodytext.strip())
             #limits number of emails that it pulls
             print x
             x = x + 1

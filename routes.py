@@ -9,8 +9,6 @@ def index():
 @app.route('/viz')
 def viz():
 	emails = get_emails()
-	print emails[0]
-	print type(emails[0])
 	return render_template('viz.html', emails=emails)
 
 if __name__ == '__main__':
