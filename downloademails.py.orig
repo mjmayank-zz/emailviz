@@ -25,7 +25,7 @@ def extract_body(payload):
 
 def get_emails():
 
-    jobj = []
+    emails = []
     stop = stopwords.words('english')
     stop.extend(['<', '>', '--', '-'])
     # Create a connection to gmail through port 993
@@ -58,26 +58,33 @@ def get_emails():
                     dateformatted = parser.parse(date)
                     year = dateformatted.year
                     monthnumber = dateformatted.date
-                    monthname = dateformatted.strftime("%m")
+                    monthname = dateformatted.strftime("%B")
 
                     for part in msg.walk():
                         if part.get_content_type() == 'text/plain':
-                            bodytext = bleach.clean(part.get_payload())
+                            bodytext = part.get_payload()
 
                             # filtering
                             text = nltk.word_tokenize(bodytext)
                             text = [i for i in text if i not in stop]
                             taggedtext = nltk.tag.pos_tag(text)
-                            nouns = [word for word,pos in taggedtext if pos == 'NN' or pos == 'NP']
+                            nouns = [word for word,pos in taggedtext if pos == 'NN' or pos == 'NNP']
                             for word in nouns:
                                 email_dict[year][monthname][word] += 1
-
                             # #shows nouns from each email in a string
                             # nounstring = ' '.join(nouns)
                             # emails.append(nounstring)
             print x
+<<<<<<< HEAD
+            print '\n\n\n\n\n\n\n'
+            x = x + 1
+            if x > 20:
+=======
             x += 1
-
+            if x > 25:
+>>>>>>> 9654d8885b04849d8772c893ec6bc9b5f283d993
+                break
+        jobj = json.dumps(email_dict)
     finally:
         try:
             conn.close()
@@ -85,6 +92,4 @@ def get_emails():
         except:
             pass
         conn.logout()
-        json.dump(email_dict, open("emails.json", 'w'), sort_keys=True, indent=4, separators=(',', ': '))
-        return email_dict
-
+        return jobj
