@@ -7,6 +7,7 @@ import getpass
 from nltk.corpus import stopwords
 from collections import Counter, defaultdict
 from dateutil import parser
+import json
 
 
 userid = "tjhackathon"
@@ -75,11 +76,9 @@ def get_emails():
                             # nounstring = ' '.join(nouns)
                             # emails.append(nounstring)
             print x
-            print '\n\n\n\n\n\n\n'
-            x = x + 1
-            if x > 1000:
+            x += 1
+            if x > 25:
                 break
-        emails.append(email_dict)
     finally:
         try:
             conn.close()
@@ -87,4 +86,4 @@ def get_emails():
         except:
             pass
         conn.logout()
-        return emails
+        return json.dumps(email_dict)
