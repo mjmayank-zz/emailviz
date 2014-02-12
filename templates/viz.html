@@ -1,24 +1,36 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title> CS 467 Email Visualisation </title>
-		<script src="http://d3js.org/d3.v3.min.js"></script>
-		<script src="static/d3.layout.cloud.js"></script>
-	</head>
-	<body>
+  <head>
+    <title> CS 467 Email Visualisation </title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="static/d3.layout.cloud.js"></script>
+  </head>
+  <body>
 <script>
+
   var fill = d3.scale.category20();
 
-  d3.layout.cloud().size([300, 300])
-      .words([
-        ".NET", "Silverlight", "jQuery", "CSS3", "HTML5", "JavaScript", "SQL","C#"].map(function(d) {
-        return {text: d, size: 10 + Math.random() * 50};
+function start(dict){
+  console.log("test")
+  for(var key in dict){
+    console.log(dict[key]);
+    console.log(Object.keys(dict));
+    for(var key2 in dict[key]){
+      array = Object.keys(dict[key][key2]);
+
+      d3.layout.cloud().size([300, 300])
+      .words(array.map(function(d) {
+        console.log(d);
+        return {text: d, size: dict[key][key2][d] * 10};
       }))
       .rotate(function() { return ~~(Math.random() * 2) * 90; })
       .font("Impact")
-      .fontSize(function(d) { return d.size; })
+      .fontSize(function(d) {return d.size; })
       .on("end", draw)
       .start();
+    }
+  }
+}
 
   function draw(words) {
     d3.select("body").append("svg")
@@ -40,16 +52,14 @@
   }
 </script>
 
-		{% if emails %}
-			{% for item in emails %}
-				<p>
-				<h3>Start Email:</h3>
-				</p>
-				<p>
-				{{ item|striptags|safe }}
-				</p>
-			{% endfor %}
-		{% endif %}
-	</body>
+        <p>
+        <h3>Start Email:</h3>
+        </p>
+        <p>
+          <script>
+          start( {{ test|safe}} );
+          </script>
+        </p>
+  </body>
 </html>
 
