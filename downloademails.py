@@ -10,9 +10,9 @@ from dateutil import parser
 import json
 
 
-userid = "tjhackathon"
-gmailpwd = "hackTJ1234"
-SenderName = 'hackTJ'
+userid = "mjmayank"
+gmailpwd = "wiliuscavdnmvqkq"
+SenderName = 'Mayank Jain'
 
 
 
@@ -58,7 +58,7 @@ def get_emails():
                     dateformatted = parser.parse(date)
                     year = dateformatted.year
                     monthnumber = dateformatted.date
-                    monthname = dateformatted.strftime("%B")
+                    monthname = dateformatted.strftime("%m")
 
                     for part in msg.walk():
                         if part.get_content_type() == 'text/plain':
