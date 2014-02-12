@@ -88,3 +88,5 @@ def get_emails():
         json.dump(email_dict, open("emails.json", 'w'), sort_keys=True, indent=4, separators=(',', ': '))
         return email_dict
 
+if __name__ == '__main__':
+  get_emails()
