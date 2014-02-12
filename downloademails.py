@@ -5,6 +5,8 @@ import sys
 import nltk
 import getpass
 from nltk.corpus import stopwords
+from collections import Counter, defaultdict
+from dateutil import parser
 
 
 userid = "tjhackathon"
@@ -34,9 +36,12 @@ def get_emails():
     #Selects the INBOX mailbox
     conn.select("[Gmail]/Sent Mail")
 
+    # This contains the data that we want
+    # Format: email_dict[year][monthname][word]
+    email_dict = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+
     #Gets all the email from SenderName. typ has the return code,
     #whereas data has the id of all the email from SenderName
-
     typ, data = conn.search(None, 'FROM', SenderName)
     x = 0
     try:
@@ -46,25 +51,35 @@ def get_emails():
                 if isinstance(response_part, tuple):
                     msg = email.message_from_string(response_part[1]) #If you are using Python 2.7 avoid the .decode("utf-8")
                     subject=bleach.clean(msg['subject'])
+
+                    # date stuff
                     date = msg['date']
+                    dateformatted = parser.parse(date)
+                    year = dateformatted.year
+                    monthnumber = dateformatted.date
+                    monthname = dateformatted.strftime("%B")
+
                     for part in msg.walk():
                         if part.get_content_type() == 'text/plain':
                             bodytext = part.get_payload()
-                            text = nltk.word_tokenize(bodytext)
-                            print type(stop)
-                            text = [i for i in text if i not in stop]
-                            #tags the list with word type and puts it into typles
-                            taggedtext = nltk.tag.pos_tag(text)
-                            # list of nouns
-                            nouns = [word for word,pos in taggedtext if pos == 'NN']
-                            emails.append(bodytext.strip())
 
-                    # This is what helps with the language processing and tagging words
-            #limits number of emails that it pulls
+                            # filtering
+                            text = nltk.word_tokenize(bodytext)
+                            text = [i for i in text if i not in stop]
+                            taggedtext = nltk.tag.pos_tag(text)
+                            nouns = [word for word,pos in taggedtext if pos == 'NN']
+                            for word in nouns:
+                                email_dict[year][monthname][word] += 1
+
+                            # #shows nouns from each email in a string
+                            # nounstring = ' '.join(nouns)
+                            # emails.append(nounstring)
             print x
+            print '\n\n\n\n\n\n\n'
             x = x + 1
-            if x > 15:
+            if x > 1000:
                 break
+        emails.append(email_dict)
     finally:
         try:
             conn.close()
