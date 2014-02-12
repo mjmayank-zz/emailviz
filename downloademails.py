@@ -79,6 +79,7 @@ def get_emails():
             x += 1
             if x > 25:
                 break
+        jobj = json.dumps(email_dict)
     finally:
         try:
             conn.close()
@@ -86,4 +87,4 @@ def get_emails():
         except:
             pass
         conn.logout()
-        return json.dumps(email_dict)
+        return jobj
