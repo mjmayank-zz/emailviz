@@ -77,6 +77,8 @@ def get_emails():
                             # emails.append(nounstring)
             print x
             x += 1
+            if x == 500:
+                break;
 
     finally:
         try:
@@ -84,9 +86,18 @@ def get_emails():
 
         except:
             pass
+        for year in email_dict.keys():
+            for month in email_dict[year].keys():
+                for word in email_dict[year][month].keys():
+                    if email_dict[year][month][word] == 1:
+                        del email_dict[year][month][word]
+
+        email_dict = json.dumps(email_dict, sort_keys=True, indent=4, separators=(',', ': '))
+        open("emails.json", 'w').writelines(email_dict)
         conn.logout()
-        json.dump(email_dict, open("emails.json", 'w'), sort_keys=True, indent=4, separators=(',', ': '))
         return email_dict
+
 
 if __name__ == '__main__':
   get_emails()
+
