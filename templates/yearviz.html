@@ -26,7 +26,7 @@ function start(dict, divstring){
         return {text: d, size: dict[d] * 2};
       }))
       .rotate(function() { return ~~(Math.random() * 2) * 90; })
-      .font("Impact")
+      .font("Helvetica")
       .fontSize(function(d) {return d.size; })
       .on("end", draw)
       .start();
@@ -42,7 +42,7 @@ function start(dict, divstring){
         .data(words)
         .enter().append("text")
         .style("font-size", function(d) { return d.size + "px"; })
-        .style("font-family", "Impact")
+        .style("font-family", "Helvetica")
         .style("fill", function(d, i) { return fill(i); })
         .attr("text-anchor", "middle")
         .attr("transform", function(d) {
