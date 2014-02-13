@@ -14,6 +14,10 @@ body {
 .block {
   text-align: center;
 }
+
+.padded {
+  padding-bottom: 40px;
+}
  
 /* The ghost, nudged to maintain perfect centering */
 .block:before {

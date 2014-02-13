@@ -18,24 +18,17 @@
 
 function start(dict){
   console.log("test")
-  for(var key in dict){
-    console.log(dict[key]);
-    console.log(Object.keys(dict));
-    for(var key2 in dict[key]){
-      array = Object.keys(dict[key][key2]);
+      array = Object.keys(dict);
 
       d3.layout.cloud().size([300, 300])
       .words(array.map(function(d) {
-        console.log(d);
-        return {text: d, size: dict[key][key2][d] * 10};
+        return {text: d, size: dict[d] * 10};
       }))
       .rotate(function() { return ~~(Math.random() * 2) * 90; })
       .font("Impact")
       .fontSize(function(d) {return d.size; })
       .on("end", draw)
       .start();
-    }
-  }
 }
 
   function draw(words) {
@@ -58,18 +51,23 @@ function start(dict){
   }
 </script>
 <div class="container">
+
         <p>
-        <h3>Word usage over time:</h3>
-        </p>
-        <p>
-          <script>
-          start( {{ emails|safe}} );
-          </script>
+        	{% for year in emails %}
+        		{% for month in emails[year] %}
+        		<p><h3> {{ month }} </h3>
+        			<script>
+          				start( {{ emails[year][month]|safe }} );
+          			</script>
+        		</p>
+        		{% endfor %}
+        	{% endfor %}
+
         </p>
 <div>
 </div>
 
-	<div class="container block">
+	<div class="container block padded">
     			<a class="btn btn-square btn-inverse btn-format" href="/viz/month">Month</a>
     			<a class="btn btn-square btn-square btn-format" href="/viz/year">Year </a>
     </div>
