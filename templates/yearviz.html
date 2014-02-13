@@ -15,38 +15,32 @@
 <script>
 
   var fill = d3.scale.category20();
+  var div = "";
 
-function start(dict){
-  console.log("test")
-  for(var key in dict){
-    console.log(dict[key]);
-    console.log(Object.keys(dict));
-    for(var key2 in dict[key]){
-      array = Object.keys(dict[key][key2]);
+function start(dict, divstring){
+      div = "#viz-" + divstring;
+      array = Object.keys(dict);
 
       d3.layout.cloud().size([300, 300])
       .words(array.map(function(d) {
-        console.log(d);
-        return {text: d, size: dict[key][key2][d] * 10};
+        return {text: d, size: dict[d] * 2};
       }))
       .rotate(function() { return ~~(Math.random() * 2) * 90; })
       .font("Impact")
       .fontSize(function(d) {return d.size; })
       .on("end", draw)
       .start();
-    }
-  }
 }
 
   function draw(words) {
-    d3.select("body").append("svg")
+    d3.select(div).append("svg")
         .attr("width", 300)
         .attr("height", 300)
-      .append("g")
+        .append("g")
         .attr("transform", "translate(150,150)")
-      .selectAll("text")
+        .selectAll("text")
         .data(words)
-      .enter().append("text")
+        .enter().append("text")
         .style("font-size", function(d) { return d.size + "px"; })
         .style("font-family", "Impact")
         .style("fill", function(d, i) { return fill(i); })
@@ -57,20 +51,25 @@ function start(dict){
         .text(function(d) { return d.text; });
   }
 </script>
+<div class="container">
 
-        <p>
-        <h3>Start Email:</h3>
-        </p>
-        <p>
-          <script>
-          start( {{ emails|safe}} );
-          </script>
-        </p>
-
-  <div class="container block">
+  <div class="container block padded">
           <a class="btn btn-square btn-inverse btn-format" href="/viz/month">Month</a>
-          <a class="btn btn-square btn-inverse btn-format" href="/viz/year">Year </a>
+          <a class="btn btn-square btn-square btn-format" href="/viz/year">Year </a>
     </div>
+          {% for year in emails %}
+              {% if emails[year] %}
+            <div id="viz-{{year}}"><h3> {{ year }} </h3></div>
+              <script>
+                  start( {{ emails[year]|safe }} , "{{year}}");
+                </script>
+              {% endif %}
+          {% endfor %}
+
+        </p>
+<div>
+</div>
+      </div>
   </body>
 </html>
 
