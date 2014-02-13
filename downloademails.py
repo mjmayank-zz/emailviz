@@ -39,7 +39,8 @@ def get_emails():
 
     # This contains the data that we want
     # Format: email_dict[year][monthname][word]
-    email_dict = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    m_email_dict = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    y_email_dict = defaultdict(lambda: defaultdict(int))
 
     #Gets all the email from SenderName. typ has the return code,
     #whereas data has the id of all the email from SenderName
@@ -58,7 +59,7 @@ def get_emails():
                     dateformatted = parser.parse(date)
                     year = dateformatted.year
                     monthnumber = dateformatted.date
-                    monthname = dateformatted.strftime("%m")
+                    monthname = dateformatted.strftime("%B")
 
                     for part in msg.walk():
                         if part.get_content_type() == 'text/plain':
@@ -70,7 +71,8 @@ def get_emails():
                             taggedtext = nltk.tag.pos_tag(text)
                             nouns = [word for word,pos in taggedtext if pos == 'NN' or pos == 'NP']
                             for word in nouns:
-                                email_dict[year][monthname][word] += 1
+                                m_email_dict[year][monthname][word] += 1
+                                y_email_dict[year][word] += 1
 
                             # #shows nouns from each email in a string
                             # nounstring = ' '.join(nouns)
@@ -86,16 +88,23 @@ def get_emails():
 
         except:
             pass
-        for year in email_dict.keys():
-            for month in email_dict[year].keys():
-                for word in email_dict[year][month].keys():
-                    if email_dict[year][month][word] < 3 or email_dict[year][month][word] > 95:
-                        del email_dict[year][month][word]
+        for year in m_email_dict.keys():
+            for month in m_email_dict[year].keys():
+                for word in m_email_dict[year][month].keys():
+                    if m_email_dict[year][month][word] < 3 or m_email_dict[year][month][word] > 95:
+                        del m_email_dict[year][month][word]
 
-        email_dict = json.dumps(email_dict, sort_keys=True, indent=4, separators=(',', ': '))
-        open("emails.json", 'w').writelines(email_dict)
+        for year in y_email_dict.keys():
+            for word in y_email_dict[year].keys():
+                if y_email_dict[year][word] < 3 or m_email_dict[year][word] > 95:
+                    del m_email_dict[year][word]
+
+        m_email_dict = json.dumps(m_email_dict, sort_keys=True, indent=4, separators=(',', ': '))
+        y_email_dict = json.dumps(y_email_dict, sort_keys=True, indent=4, separators=(',', ': '))
+        open("m_emails.json", 'w').writelines(m_email_dict)
+        open("y_emails.json", 'w').writelines(y_email_dict)
         conn.logout()
-        return email_dict
+        return m_email_dict, y_email_dict
 
 
 if __name__ == '__main__':

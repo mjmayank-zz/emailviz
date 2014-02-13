@@ -10,14 +10,17 @@ def index():
 
 @app.route('/viz/<ty>')
 def viz(ty):
+	m_emails = ""
+	y_emails = ""
+	mth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	if len(sys.argv) > 1 and str(sys.argv[1]) == 'json':
-		emails = json.load(open("emails.json", "r"), object_hook=_decode_dict)
+		m_emails = json.load(open("emails.json", "r"), object_hook=_decode_dict)
 	else:
-		emails = get_emails()
+		m_emails, y_emails = get_emails()
 	if ty == 'year':
-		return render_template('yearviz.html', emails=emails)
+		return render_template('yearviz.html', emails=y_emails)
 	else:
-		return render_template('viz.html', emails=emails)
+		return render_template('viz.html', emails=m_emails, mth=mth)
 
 def _decode_list(data):
     rv = []
