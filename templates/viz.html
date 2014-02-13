@@ -15,9 +15,10 @@
 <script>
 
   var fill = d3.scale.category20();
+  var div = "";
 
-function start(dict){
-  console.log("test")
+function start(dict, divstring){
+      div = "#viz-" + divstring;
       array = Object.keys(dict);
 
       d3.layout.cloud().size([300, 300])
@@ -32,7 +33,8 @@ function start(dict){
 }
 
   function draw(words) {
-    d3.select("body").append("svg")
+    console.log(div);
+    d3.select(div).append("svg")
         .attr("width", 300)
         .attr("height", 300)
       .append("g")
@@ -55,9 +57,9 @@ function start(dict){
         <p>
         	{% for year in emails %}
         		{% for month in emails[year] %}
-        		<p><h3> {{ month }} </h3>
+        		<div id="viz-{{year}}{{month}}"><h3> {{ month }} </h3></div>
         			<script>
-          				start( {{ emails[year][month]|safe }} );
+          				start( {{ emails[year][month]|safe }} , "{{year}}{{month}}");
           			</script>
         		</p>
         		{% endfor %}
