@@ -33,15 +33,14 @@ function start(dict, divstring){
 }
 
   function draw(words) {
-    console.log(div);
     d3.select(div).append("svg")
         .attr("width", 300)
         .attr("height", 300)
-      .append("g")
+        .append("g")
         .attr("transform", "translate(150,150)")
-      .selectAll("text")
+        .selectAll("text")
         .data(words)
-      .enter().append("text")
+        .enter().append("text")
         .style("font-size", function(d) { return d.size + "px"; })
         .style("font-family", "Impact")
         .style("fill", function(d, i) { return fill(i); })
@@ -54,25 +53,22 @@ function start(dict, divstring){
 </script>
 <div class="container">
 
-        <p>
+  <div class="container block padded">
+          <a class="btn btn-square btn-inverse btn-format" href="/viz/month">Month</a>
+          <a class="btn btn-square btn-square btn-format" href="/viz/year">Year </a>
+    </div>
         	{% for year in emails %}
         		{% for month in emails[year] %}
         		<div id="viz-{{year}}{{month}}"><h3> {{ month }} </h3></div>
         			<script>
           				start( {{ emails[year][month]|safe }} , "{{year}}{{month}}");
           			</script>
-        		</p>
         		{% endfor %}
         	{% endfor %}
 
         </p>
 <div>
 </div>
-
-	<div class="container block padded">
-    			<a class="btn btn-square btn-inverse btn-format" href="/viz/month">Month</a>
-    			<a class="btn btn-square btn-square btn-format" href="/viz/year">Year </a>
-    </div>
       </div>
   </body>
 </html>
