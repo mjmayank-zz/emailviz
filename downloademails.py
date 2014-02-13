@@ -77,9 +77,10 @@ def get_emails():
                             # #shows nouns from each email in a string
                             # nounstring = ' '.join(nouns)
                             # emails.append(nounstring)
-            print x
+            if x%100 == 0:
+                print x
             x += 1
-            if x == 100:
+            if x == 1000:
                 break;
 
     finally:
