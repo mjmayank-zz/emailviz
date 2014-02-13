@@ -64,7 +64,10 @@ function start(dict, divstring){
         			<script>
           				start( {{ emails[year][month]|safe }} , "{{year}}{{month}}");
           			</script>
+<<<<<<< HEAD
         			{% endif %}
+=======
+>>>>>>> 9ad452447f841545e2357100167610bf56098674
         		{% endfor %}
         	{% endfor %}
 

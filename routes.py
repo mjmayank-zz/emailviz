@@ -14,7 +14,8 @@ def viz(ty):
 	y_emails = ""
 	mth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	if len(sys.argv) > 1 and str(sys.argv[1]) == 'json':
-		m_emails = json.load(open("emails.json", "r"), object_hook=_decode_dict)
+		m_emails = json.load(open("m_emails.json", "r"), object_hook=_decode_dict)
+		y_emails = json.load(open("y_emails.json", "r"), object_hook=_decode_dict)
 	else:
 		m_emails, y_emails = get_emails()
 	if ty == 'year':
