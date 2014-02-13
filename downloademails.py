@@ -77,7 +77,7 @@ def get_emails():
                             # emails.append(nounstring)
             print x
             x += 1
-            if x == 500:
+            if x == 300:
                 break;
 
     finally:
@@ -89,7 +89,7 @@ def get_emails():
         for year in email_dict.keys():
             for month in email_dict[year].keys():
                 for word in email_dict[year][month].keys():
-                    if email_dict[year][month][word] == 1:
+                    if email_dict[year][month][word] < 3:
                         del email_dict[year][month][word]
 
         email_dict = json.dumps(email_dict, sort_keys=True, indent=4, separators=(',', ': '))

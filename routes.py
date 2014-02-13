@@ -19,7 +19,6 @@ def viz(ty):
 	else:
 		return render_template('viz.html', emails=emails)
 
-
 def _decode_list(data):
     rv = []
     for item in data:

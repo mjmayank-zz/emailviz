@@ -2,10 +2,21 @@
 <html>
 	<head>
 		<title> CS 467 Email Visualisation </title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="/static/d3.layout.cloud.js"></script>
+    <link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" media="screen">
+    <link href="/static/css/bootflat.css" rel="stylesheet" media="screen">
+    <link href="/static/css/bootflat-extensions.css" rel="stylesheet" media="screen">
+    <link href="/static/css/bootflat-square.css" rel="stylesheet" media="screen">
+    <link href="/static/css/viz.css" rel="stylesheet" media="screen">
 	</head>
-	<body><p>
-		<a href='/viz/month'> Click link to run monthly viz </a></p>
-		<p>
-		<a href='/viz/year'> Click link to run yearly viz </a></p>
+	<body>
+	<div class="container block">
+		<h1>CS 467 Viz</h1>
+		<p>Email can be visualised by year or by month - select a button below to begin!</p>
+    			<a class="btn btn-inverse btn-square btn-format" href="/viz/month">Month</a>
+    			<a class="btn btn-inverse btn-square btn-format" href="/viz/year">Year </a>
+    </div>
 	</body>
 </html>
