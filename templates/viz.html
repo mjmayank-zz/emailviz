@@ -60,7 +60,7 @@ function start(dict, divstring){
         	{% for year in emails %}
         		{% for month in mth %}
         			{% if emails[year][month] %}
-        		<div id="viz-{{year}}{{month}}"><h3> {{ month }} </h3></div>
+        		<div id="viz-{{year}}{{month}}"><h3> {{ month }}, {{ year }} </h3></div>
         			<script>
           				start( {{ emails[year][month]|safe }} , "{{year}}{{month}}");
           			</script>
