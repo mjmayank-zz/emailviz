@@ -55,23 +55,22 @@ function start(dict, divstring){
 
   <div class="container block padded">
           <a class="btn btn-square btn-inverse btn-format" href="/viz/month">Month</a>
-          <a class="btn btn-square btn-square btn-format" href="/viz/year">Year </a>
+          <a class="btn btn-square btn-inverse btn-format" href="/viz/year">Year </a>
     </div>
-        	{% for year in emails %}
+    <div class="container-fluid">
+          <div class="row-fluid">
+        	{% for year in yr %}
         		{% for month in mth %}
         			{% if emails[year][month] %}
-
-        		<div id="viz-{{year}}{{month}}" class="block"><h3> {{ month }}, {{ year }} </h3></div>
+        		<div id="viz-{{year}}{{month}}" class="block col-md-4"><h3> {{ month }}, {{ year }} </h3></div>
         			<script>
           				start( {{ emails[year][month]|safe }} , "{{year}}{{month}}");
           			</script>
         			{% endif %}
         		{% endfor %}
         	{% endfor %}
-
-        </p>
-<div>
-</div>
+			</div>
+		</div>
       </div>
   </body>
 </html>

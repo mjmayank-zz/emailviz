@@ -19,9 +19,13 @@ def viz(ty):
 	else:
 		m_emails, y_emails = get_emails()
 	if ty == 'year':
-		return render_template('yearviz.html', emails=y_emails)
+		yr = y_emails.keys()
+		yr.sort()
+		return render_template('yearviz.html', emails=y_emails, yr=yr)
 	else:
-		return render_template('viz.html', emails=m_emails, mth=mth)
+		yr = m_emails.keys()
+		yr.sort()
+		return render_template('viz.html', emails=m_emails, mth=mth, yr=yr)
 
 def _decode_list(data):
     rv = []

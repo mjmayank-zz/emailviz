@@ -27,7 +27,7 @@ def get_emails():
 
     jobj = []
     stop = stopwords.words('english')
-    stop.extend(['<', '>', '--', '-', 'gt', 'It'])
+    stop.extend(['<', '>', '--', '-', 'gt', 'It', '@', '%', 'lt'])
     # Create a connection to gmail through port 993
     conn = imaplib.IMAP4_SSL("imap.gmail.com", 993)
 
@@ -77,7 +77,7 @@ def get_emails():
                             # #shows nouns from each email in a string
                             # nounstring = ' '.join(nouns)
                             # emails.append(nounstring)
-            if x%100 == 0:
+            if x%20 == 0:
                 print x
             x += 1
             if x == 1000:
@@ -92,12 +92,12 @@ def get_emails():
         for year in m_email_dict.keys():
             for month in m_email_dict[year].keys():
                 for word in m_email_dict[year][month].keys():
-                    if m_email_dict[year][month][word] < 3 or m_email_dict[year][month][word] > 95:
+                    if m_email_dict[year][month][word] < 3 or m_email_dict[year][month][word] > 55:
                         del m_email_dict[year][month][word]
 
         for year in y_email_dict.keys():
             for word in y_email_dict[year].keys():
-                if y_email_dict[year][word] < 3 or y_email_dict[year][word] > 95:
+                if y_email_dict[year][word] < 3 or y_email_dict[year][word] > 55:
                     del y_email_dict[year][word]
 
         m_email_dict = json.dumps(m_email_dict, sort_keys=True, indent=4, separators=(',', ': '))
