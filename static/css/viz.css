@@ -1,0 +1,33 @@
+body {
+	background-color: #f9f9f9;
+	position: relative;
+    margin-top: 40px;
+    padding-top: 40px;
+}
+
+.btn-format {
+	width: 150px;
+	height: 50px;
+	font-size: 25px;
+}
+
+.block {
+  text-align: center;
+}
+ 
+/* The ghost, nudged to maintain perfect centering */
+.block:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+
+/* The element to be centered, can
+   also be of any width and height */ 
+.centered {
+  display: inline-block;
+  vertical-align: middle;
+  width: 300px;
+}
