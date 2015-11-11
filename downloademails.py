@@ -10,8 +10,8 @@ from dateutil import parser
 import json
 
 
-userid = "mjmayank"
-gmailpwd = "wiliuscavdnmvqkq"
+userid = "INSERT USERNAME HERE"
+gmailpwd = "INSERT PASSWORD HERE"
 SenderName = 'Mayank Jain'
 
 
